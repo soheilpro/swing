@@ -20,10 +20,10 @@ class TCPServer
     {
         self.newConnectionCallback = newConnectionCallback
 
-        tcp_create(Loop.DefaultLoop.__uv_loop, self.ip.bridgeToObjectiveC().UTF8String, CInt(self.port), __connection_cb);
+        tcp_create(Loop.DefaultLoop.__uv_loop, (self.ip as NSString).UTF8String, CInt(self.port), __connection_cb);
     }
 
-    func __connection_cb(client: UnsafePointer<uv_stream_t>, status: CInt) -> Void
+    func __connection_cb(client: UnsafeMutablePointer<uv_stream_t>, status: CInt) -> Void
     {
         if (status < 0)
         {

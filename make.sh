@@ -7,7 +7,7 @@ popd > /dev/null
 
 echo "Building main"
 
-xcrun swift main.swift \
+xcrun swiftc main.swift \
   -module-name main \
   -sdk $(xcrun --show-sdk-path --sdk macosx) \
   -I modules/core \

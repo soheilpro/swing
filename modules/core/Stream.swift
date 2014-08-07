@@ -5,13 +5,13 @@ class Stream
     typealias ReadCallback = (data: [Byte]?, error: Error?) -> Void
     typealias WriteCallback = (error: Error?) -> Void
 
-    let __stream: UnsafePointer<uv_stream_t>
+    let __stream: UnsafeMutablePointer<uv_stream_t>
     var __read_cb: stream_read_cb?
     var __write_cb: stream_write_cb?
     var readCallback: ReadCallback?
     var writeCallback: WriteCallback?
 
-    init(stream: UnsafePointer<uv_stream_t>)
+    init(stream: UnsafeMutablePointer<uv_stream_t>)
     {
         self.__stream = stream
         self.__read_cb = ___read_cb
@@ -30,13 +30,10 @@ class Stream
         self.writeCallback = callback
 
         var len = UInt(data.count)
-        var buffer = UnsafePointer<UInt8>(malloc(len)) // TODO: Free
-        buffer.withUnsafePointer {
-            p in
-            memcpy(p, data, len)
-        }
+        var buffer = UnsafeMutablePointer<Int8>(malloc(len)) // TODO: Free
+        memcpy(buffer, data, len)
 
-        stream_write(self.__stream, CString(buffer), __write_cb)
+        stream_write(self.__stream, buffer, __write_cb)
     }
 
     func write(data: [Byte])
@@ -49,7 +46,7 @@ class Stream
         stream_close(self.__stream)
     }
 
-    func ___read_cb(stream: UnsafePointer<uv_stream_t>, nread: ssize_t, buf: ConstUnsafePointer<uv_buf_t>)
+    func ___read_cb(stream: UnsafeMutablePointer<uv_stream_t>, nread: ssize_t, buf: UnsafePointer<uv_buf_t>)
     {
         if (nread < 0)
         {
@@ -69,7 +66,7 @@ class Stream
         self.readCallback?(data: data, error: nil)
     }
 
-    func ___write_cb(req: UnsafePointer<uv_write_t>, status: CInt)
+    func ___write_cb(req: UnsafeMutablePointer<uv_write_t>, status: CInt)
     {
         self.writeCallback?(error: nil);
     }

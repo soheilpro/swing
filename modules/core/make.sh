@@ -3,7 +3,7 @@ mkdir out
 
 echo "Building module core"
 
-xcrun swift \
+xcrun swiftc \
   -module-name core \
   -emit-library \
   -emit-object \
@@ -33,7 +33,7 @@ ar rcs \
 
 rm *.o
 
-xcrun swift \
+xcrun swiftc \
   -module-name core \
   -emit-module Error.swift Loop.swift Stream.swift TCPServer.swift \
   -sdk $(xcrun --show-sdk-path --sdk macosx) \
