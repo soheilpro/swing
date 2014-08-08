@@ -22,7 +22,7 @@
 #ifndef UV_ERRNO_H_
 #define UV_ERRNO_H_
 
-#include <errno.h>
+#include "errno.h"
 
 #define UV__EOF     (-4095)
 #define UV__UNKNOWN (-4094)
