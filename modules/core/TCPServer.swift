@@ -1,22 +1,22 @@
 import Foundation
 
-class TCPServer
+public class TCPServer
 {
-    typealias NewConnectionCallback = (client: Stream?, error: Error?) -> Void
+    public typealias NewConnectionCallback = (client: Stream?, error: Error?) -> Void
 
     var ip: String
     var port: Int
     var newConnectionCallback: NewConnectionCallback?
     var clients: [Stream]
 
-    init(ip: String, port: Int)
+    public init(ip: String, port: Int)
     {
         self.ip = ip;
         self.port = port;
         self.clients = [Stream]()
     }
 
-    func start(newConnectionCallback: NewConnectionCallback)
+    public func start(newConnectionCallback: NewConnectionCallback)
     {
         self.newConnectionCallback = newConnectionCallback
 

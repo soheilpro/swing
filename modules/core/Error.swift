@@ -1,5 +1,5 @@
 import Foundation
 
-class Error
+public class Error
 {
 }

@@ -1,9 +1,9 @@
 import Foundation
 
-class Stream
+public class Stream
 {
-    typealias ReadCallback = (data: [Byte]?, error: Error?) -> Void
-    typealias WriteCallback = (error: Error?) -> Void
+    public typealias ReadCallback = (data: [Byte]?, error: Error?) -> Void
+    public typealias WriteCallback = (error: Error?) -> Void
 
     let __stream: UnsafeMutablePointer<uv_stream_t>
     var __read_cb: stream_read_cb?
@@ -11,21 +11,21 @@ class Stream
     var readCallback: ReadCallback?
     var writeCallback: WriteCallback?
 
-    init(stream: UnsafeMutablePointer<uv_stream_t>)
+    public init(stream: UnsafeMutablePointer<uv_stream_t>)
     {
         self.__stream = stream
         self.__read_cb = ___read_cb
         self.__write_cb = ___write_cb
     }
 
-    func read(callback: ReadCallback)
+    public func read(callback: ReadCallback)
     {
         self.readCallback = callback
 
         stream_read(self.__stream, __read_cb)
     }
 
-    func write(data: [Byte], callback: WriteCallback?)
+    public func write(data: [Byte], callback: WriteCallback?)
     {
         self.writeCallback = callback
 
@@ -36,12 +36,12 @@ class Stream
         stream_write(self.__stream, buffer, __write_cb)
     }
 
-    func write(data: [Byte])
+    public func write(data: [Byte])
     {
         self.write(data, callback: nil)
     }
 
-    func close()
+    public func close()
     {
         stream_close(self.__stream)
     }
